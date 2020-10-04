@@ -1,0 +1,108 @@
+<div class="row justify-content-center">
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        Payment Details
+      </div>
+      <div class="card-body">
+        <form [formGroup]="form">
+          <div class="form-group">
+            <label for="inputCardHolder">Card Holder</label>
+            <input
+              type="text"
+              autocomplete="off"
+              class="form-control"
+              id="inputCardHolder"
+              formControlName="name"
+              placeholder="Steve Jobs"
+              [class.is-valid]="form.get('name').dirty && form.get('name').valid"
+              [class.is-invalid]="(hasFormErrors || form.get('name').dirty) && form.get('name').invalid">
+            <div class="invalid-feedback">Please enter a valid name.</div>
+          </div>
+          <div class="form-group">
+            <label for="inputCC">Credit Card Number</label>
+            <input
+              type="text"
+              id="inputCC"
+              autocomplete="off"
+              class="form-control"
+              formControlName="card_number"
+              placeholder="41111111111111111"
+              [class.is-valid]="form.get('card_number').dirty && form.get('card_number').valid"
+              [class.is-invalid]="(hasFormErrors || form.get('card_number').dirty) && form.get('card_number').invalid">
+            <div class="invalid-feedback">Please enter a valid credit card number.</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputMM">Expiry Date</label>
+              <input
+                type="text"
+                id="inputMM"
+                placeholder="MM"
+                autocomplete="off"
+                class="form-control"
+                formControlName="expiry_month"
+                [class.is-valid]="form.get('expiry_month').dirty && form.get('expiry_month').valid"
+                [class.is-invalid]="(hasFormErrors || form.get('expiry_month').dirty) && form.get('expiry_month').invalid">
+              <div class="invalid-feedback">{{ monthLabel }}</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputYY">&nbsp;</label>
+              <input
+                type="text"
+                id="inputYY"
+                placeholder="YYYY"
+                autocomplete="off"
+                class="form-control"
+                formControlName="expiry_year"
+                [class.is-valid]="form.get('expiry_year').dirty && form.get('expiry_year').valid"
+                [class.is-invalid]="(hasFormErrors || form.get('expiry_year').dirty) && form.get('expiry_year').invalid">
+              <div class="invalid-feedback" *ngIf="!isDateExpired">Please enter a valid year.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputAmount">Amount</label>
+              <input
+                type="text"
+                id="inputAmount"
+                placeholder="100"
+                autocomplete="off"
+                class="form-control"
+                formControlName="amount"
+                [class.is-valid]="form.get('amount').dirty && form.get('amount').valid"
+                [class.is-invalid]="(hasFormErrors || form.get('amount').dirty) && (form.get('amount').invalid || form.get('amount').value < 1)">
+              <div class="invalid-feedback">Please enter a valid amount.</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputCVC">CVC</label>
+              <input
+                type="text"
+                id="inputCVC"
+                placeholder="123"
+                autocomplete="off"
+                class="form-control"
+                formControlName="cvc"
+                [class.is-invalid]="form.get('cvc').dirty && form.get('cvc').invalid">
+              <div class="invalid-feedback">Please enter a valid cvc number.</div>
+            </div>
+          </div>
+          <ng-container *ngIf="apiErrors">
+            <div class="alert alert-danger" role="alert">
+              Something went wrong, try again!
+            </div>
+          </ng-container>
+          <ng-container *ngIf="data">
+            <div class="alert alert-success" role="alert">
+              You have successfully made payment.
+            </div>
+          </ng-container>
+          <div class="card__actions">
+            <button type="button" (click)="submit()" class="btn btn-primary" [disabled]="disabled">Pay Now</button>
+            <a class="btn btn-secondary" [routerLink]="['/']">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
